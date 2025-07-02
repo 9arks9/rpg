@@ -1,0 +1,30 @@
+rpg_game/
+│
+├── main.py                  # Główna pętla gry
+├── config.py                # Stałe, ustawienia gry
+├── requirements.txt         # Lista bibliotek (jeśli używasz zewnętrznych)
+├── README.md                # Opis projektu
+├── .gitignore               # Pliki ignorowane przez Git
+│
+├── data/                    # Dane gry (np. mapy, dialogi, przedmioty)
+│   ├── items.json
+│   ├── enemies.json
+│   ├── quests.json
+│   └── locations.json
+│
+├── core/                    # Logika gry
+│   ├── player.py            # Klasa gracza
+│   ├── enemy.py             # Klasa przeciwników
+│   ├── combat.py            # System walki
+│   ├── inventory.py         # Ekwipunek i przedmioty
+│   ├── skills.py            # Umiejętności i rozwój
+│   ├── quests.py            # Zadania i ich logika
+│   ├── world.py             # Mapa i eksploracja
+│   └── dialogue.py          # System rozmów z NPC
+│
+├── utils/                   # Pomocnicze funkcje
+│   ├── file_manager.py      # Wczytywanie/zapisywanie danych
+│   └── helpers.py           # Różne narzędzia (np. losowość, formatowanie)
+│
+└── saves/                   # Zapisane stany gry
+    └── save1.json

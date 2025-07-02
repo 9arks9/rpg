@@ -1,0 +1,24 @@
+## 🗡️ Wstępny szkic fabuły gry RPG (survival fantasy)
+
+### 🎬 Tło świata
+Witaj w **Elarionie** — krainie, która kiedyś tętniła życiem, lecz po Wielkim Upadku została rozbita na dzikie, niebezpieczne strefy. Dawne królestwa upadły, a natura odzyskała władzę nad ruinami cywilizacji. Magiczne anomalie, zmutowane bestie i tajemnicze lochy to codzienność.
+
+### 🧍‍♂️ Kim jesteś?
+Jesteś **Bezimiennym Ocalałym**, jednym z nielicznych, którzy przebudzili się w ruinach dawnego świata. Nie masz wspomnień, ale masz instynkt przetrwania. Twoim celem jest nie tylko przeżyć — ale stać się kimś więcej. **Legendą.**
+
+### 🎯 Główny cel
+Osiągnąć najwyższy poziom rozwoju — zarówno fizycznego, jak i duchowego. Tylko wtedy odkryjesz prawdę o swoim pochodzeniu i o tym, co naprawdę doprowadziło do upadku Elarionu.
+
+### 🧩 Mechaniki fabularne
+- **Eksploracja**: Odkrywasz zrujnowane osady, dzikie lasy, podziemne lochy i magiczne enklawy.
+- **Survival**: Musisz zdobywać pożywienie, sadzić rośliny, tworzyć mikstury i unikać chorób.
+- **Walka**: Zmiennokształtne bestie, bandyci, a nawet inni ocalali — każdy może być zagrożeniem.
+- **Zadania**: Pomagasz ocalałym NPC, którzy w zamian uczą cię umiejętności lub oferują rzadkie przedmioty.
+- **Handel i rzemiosło**: Tworzysz własne narzędzia, ulepszasz broń, wymieniasz się z kupcami.
+- **Umiejętności**: Rozwijasz się w wybranym stylu — wojownik, zielarz, łowca, alchemik, zwiadowca...
+
+### 🏁 Zakończenie gry (propozycja)
+Po osiągnięciu maksymalnego poziomu i wykonaniu serii kluczowych zadań, gracz odkrywa ukrytą lokację: **Wieżę Początku**, gdzie czeka ostatnia próba — walka z własnym cieniem (symboliczna walka z przeszłością). Po zwycięstwie gracz może wybrać jedno z trzech zakończeń:
+1. Odbudować cywilizację jako przywódca.
+2. Odejść w dzicz jako samotny mistrz.
+3. Otworzyć portal do innego świata — kontynuacja w potencjalnym sequelu.
