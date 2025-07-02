@@ -1,0 +1,9 @@
+{
+  "krolik": {
+    "nazwa": "Krolik",
+    "level": 1,
+    "hp": 15,
+    "atak": 2,
+    "loot": [1, 2]
+  }
+}
