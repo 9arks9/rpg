@@ -1,0 +1,20 @@
+{
+  "d_miecz": {
+    "id": 1,
+    "nazwa": "Drewniany Miecz",
+    "atak": 5,
+    "cena": 10,
+    "opis": "Podstawowa broń, idealna dla początkujących.",
+    "trwalosc": 100,
+    "wymagania": 1
+  },
+  "k_miecz": {
+    "id": 2,
+    "nazwa": "Kamienny Miecz",
+    "atak": 10,
+    "cena": 20,
+    "opis": "Solidna broń, lepsza niż drewniana.",
+    "trwalosc": 100,
+    "wymagania": 10
+  }
+}

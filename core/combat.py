@@ -1,6 +1,7 @@
 from player import Gracz
 from enemy import Przeciwnik
 import random
+import json
 
 def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
     print(f"\n⚔️ Walka: {gracz.nazwa} vs {przeciwnik.nazwa}")
@@ -24,6 +25,7 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
             xp = przeciwnik.level * 5
             gracz.increase_xp(xp)
             loot = losuj_loot(przeciwnik.loot)
+            gracz.dodaj_do_ekwipunek(loot)
             print(f"🎁 Zdobyto loot: {loot}")
             return "wygrana", loot
 
@@ -40,4 +42,17 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
 def losuj_loot(loot_lista):
     if not loot_lista:
         return []
-    return loot_lista  # Możesz dodać losowość tutaj
+    # Załaduj wszystkie pliki z itemkami
+    items = {}
+    for fname in ["weapons.json", "potions.json", "armors.json"]:
+        try:
+            with open(f"data/items/{fname}", encoding="utf-8") as f:
+                items.update(json.load(f))
+        except Exception:
+            pass
+    # Zwróć przedmioty, których id są w loot_lista
+    wynik = []
+    for item in items.values():
+        if item.get("id") in loot_lista:
+            wynik.append(item)
+    return wynik

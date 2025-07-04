@@ -4,6 +4,13 @@
     "level": 1,
     "hp": 15,
     "atak": 2,
-    "loot": [1, 2]
+    "loot": [0]
+  },
+  "wilk": {
+    "nazwa": "Wilk",
+    "level": 5,
+    "hp": 30,
+    "atak": 5,
+    "loot": [1]
   }
 }
