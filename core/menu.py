@@ -2,6 +2,7 @@ from player import Gracz
 from enemy import Przeciwnik
 from combat import walcz
 from save_system import save_game, load_game
+from inventory import Inventory
 
 def show_main_menu():
     gracz = None

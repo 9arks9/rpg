@@ -1,6 +1,7 @@
 import random
 import json
 import os
+from inventory import Inventory
 
 class Gracz:
     def __init__(self, nazwa="Gracz", max_hp=100, hp=100, level=1, xp=0, max_xp=100, atak=5, obrona=1):
@@ -16,8 +17,7 @@ class Gracz:
         self.zdrowie = 1
         self.szansa_kryt = 0.2
         self.mnoznik_kryt = 1.5
-        self.ekwipunek = []  # Lista przedmiotów ekwipunku
-        self.ekwipunek_na_sobie = []  # Lista przedmiotów na sobie
+        self.inventory = Inventory()
 
     def __str__(self):
         return f"\nStatus:\n{self.nazwa} [{int(self.hp)}/{int(self.max_hp)}]\nPoziom [{self.level}]-[{self.xp}/{self.max_xp}]\nAtrybuty:\n- {self.atak} atak\n- {self.zdrowie} zdrowie\n- {self.obrona} pancerz"
@@ -45,84 +45,18 @@ class Gracz:
     def pokaz_szansa_kryt(self):
         return self.szansa_kryt
 
-    def save_ekwipunek(self):
-        with open("data/eq.json", "w", encoding="utf-8") as f:
-            json.dump(self.ekwipunek, f, indent=4, ensure_ascii=False)
-    def save_ekwipunek_na_sobie(self):
-        with open("data/active_eq.json", "w", encoding="utf-8") as f:
-            json.dump(self.ekwipunek_na_sobie, f, indent=4, ensure_ascii=False)
-    def load_ekwipunek(self):
-        if os.path.exists("data/eq.json"):
-            with open("data/eq.json", encoding="utf-8") as f:
-                self.ekwipunek = json.load(f)
-    def load_ekwipunek_na_sobie(self):
-        if os.path.exists("data/active_eq.json"):
-            with open("data/active_eq.json", encoding="utf-8") as f:
-                self.ekwipunek_na_sobie = json.load(f)
-
     def dodaj_do_ekwipunek(self, loot):
-        # loot może być listą lub pojedynczym przedmiotem
-        if not isinstance(loot, list):
-            loot = [loot]
-        for nowy in loot:
-            if isinstance(nowy, list):
-                for n in nowy:
-                    self._dodaj_przedmiot_do_ekwipunku(n)
-            else:
-                self._dodaj_przedmiot_do_ekwipunku(nowy)
-        self.save_ekwipunek()
-
-    def _dodaj_przedmiot_do_ekwipunku(self, nowy):
-        # Stackowanie tylko dla mikstur (id=0, max_ilosc=15)
-        if isinstance(nowy, dict) and nowy.get("max_ilosc"):
-            # Szukaj stacka z tym samym id i max_ilosc
-            for item in self.ekwipunek:
-                if isinstance(item, dict) and item.get("id") == nowy["id"] and item.get("max_ilosc"):
-                    ilosc = item.get("ilosc", 1)
-                    if ilosc < item["max_ilosc"]:
-                        dodaj = min(nowy.get("ilosc", 1), item["max_ilosc"] - ilosc)
-                        item["ilosc"] = ilosc + dodaj
-                        nowy_ilosc = nowy.get("ilosc", 1) - dodaj
-                        if nowy_ilosc > 0:
-                            nowy = dict(nowy)
-                            nowy["ilosc"] = nowy_ilosc
-                            continue
-                        return
-            # Jeśli nie znaleziono stacka lub stack pełny, dodaj nowy slot
-            nowy = dict(nowy)
-            nowy["ilosc"] = nowy.get("ilosc", 1)
-            self.ekwipunek.append(nowy)
-        else:
-            self.ekwipunek.append(nowy)
-
+        self.inventory.dodaj_do_ekwipunek(loot)
     def usun_z_ekwipunek(self, ekwipunek):
-        if ekwipunek in self.ekwipunek:
-            self.ekwipunek.remove(ekwipunek)
-            self.save_ekwipunek()
-        else:
-            print("Przedmiot nie znajduje się w ekwipunku.")
+        self.inventory.usun_z_ekwipunek(ekwipunek)
     def zaloz_ekwipunek(self, ekwipunek):
-        if ekwipunek in self.ekwipunek:
-            self.ekwipunek.remove(ekwipunek)
-            self.ekwipunek_na_sobie.append(ekwipunek)
-            self.save_ekwipunek()
-            self.save_ekwipunek_na_sobie()
-        else:
-            print("Nie masz tego przedmiotu w ekwipunku.")
+        self.inventory.zaloz_ekwipunek(ekwipunek)
     def zdejmij_ekwipunek(self, ekwipunek):
-        if ekwipunek in self.ekwipunek_na_sobie:
-            self.ekwipunek_na_sobie.remove(ekwipunek)
-            self.ekwipunek.append(ekwipunek)
-            self.save_ekwipunek()
-            self.save_ekwipunek_na_sobie()
-        else:
-            print("Nie masz tego przedmiotu na sobie.")
+        self.inventory.zdejmij_ekwipunek(ekwipunek)
     def pokaz_ekwipunek(self):
-        self.load_ekwipunek()
-        return self.ekwipunek
+        return self.inventory.pokaz_ekwipunek()
     def pokaz_ekwipunek_na_sobie(self):
-        self.load_ekwipunek_na_sobie()
-        return self.ekwipunek_na_sobie
+        return self.inventory.pokaz_ekwipunek_na_sobie()
 
     def ustaw_nazwa(self, wartosc):
         self.nazwa = wartosc

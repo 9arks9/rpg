@@ -1,6 +1,7 @@
 import json
 import os
 from player import Gracz
+from inventory import Inventory
 
 SAVE_DIR = "data"
 SAVE_FILE = os.path.join(SAVE_DIR, "savegame.json")
@@ -16,10 +17,8 @@ def save_game(gracz: Gracz):
     try:
         with open(SAVE_FILE, "w", encoding="utf-8") as f:
             json.dump(gracz.to_dict(), f, indent=4, ensure_ascii=False)
-        with open(EQ_FILE, "w", encoding="utf-8") as f:
-            json.dump(gracz.ekwipunek, f, indent=4, ensure_ascii=False)
-        with open(ACTIVE_EQ_FILE, "w", encoding="utf-8") as f:
-            json.dump(gracz.ekwipunek_na_sobie, f, indent=4, ensure_ascii=False)
+        gracz.inventory.save_ekwipunek()
+        gracz.inventory.save_ekwipunek_na_sobie()
         print("✅ Gra została zapisana.")
     except Exception as e:
         print(f"❌ Błąd zapisu gry: {e}")
@@ -29,12 +28,8 @@ def load_game():
         with open(SAVE_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
         gracz = Gracz.from_dict(data)
-        if os.path.exists(EQ_FILE):
-            with open(EQ_FILE, encoding="utf-8") as f:
-                gracz.ekwipunek = json.load(f)
-        if os.path.exists(ACTIVE_EQ_FILE):
-            with open(ACTIVE_EQ_FILE, encoding="utf-8") as f:
-                gracz.ekwipunek_na_sobie = json.load(f)
+        gracz.inventory.load_ekwipunek()
+        gracz.inventory.load_ekwipunek_na_sobie()
         print("✅ Gra została wczytana.")
         return gracz
     except FileNotFoundError:
