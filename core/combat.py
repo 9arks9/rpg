@@ -3,6 +3,25 @@ from enemy import Przeciwnik
 import random
 import json
 
+def pretty_print_loot(loot):
+    if not loot:
+        print("Brak lootu.")
+        return
+    print("\n--- Zdobycze ---")
+    for item in loot:
+        print(f"- {item.get('nazwa', 'Nieznany przedmiot')} (ID: {item.get('id')})")
+        if 'opis' in item:
+            print(f"  Opis: {item['opis']}")
+        if 'atak' in item:
+            print(f"  Atak: {item['atak']}")
+        if 'trwalosc' in item:
+            print(f"  Trwałość: {item['trwalosc']}")
+        if 'wymagania' in item:
+            print(f"  Wymagania: {item['wymagania']}")
+        if 'cena' in item:
+            print(f"  Cena: {item['cena']}")
+        print()
+
 def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
     print(f"\n⚔️ Walka: {gracz.nazwa} vs {przeciwnik.nazwa}")
     print(f"{gracz.nazwa} HP: {int(gracz.hp)} | {przeciwnik.nazwa} HP: {int(przeciwnik.hp)}")
@@ -26,7 +45,7 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
             gracz.increase_xp(xp)
             loot = losuj_loot(przeciwnik.loot)
             gracz.dodaj_do_ekwipunek(loot)
-            print(f"🎁 Zdobyto loot: {loot}")
+            pretty_print_loot(loot)
             return "wygrana", loot
 
         # Przeciwnik kontratakuje

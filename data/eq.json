@@ -1,14 +1,14 @@
 [
-    [
-        {
-            "id": 0,
-            "nazwa": "Mikstura Zdrowia",
-            "cena": 5,
-            "opis": "Przywraca 10 punktów zdrowia.",
-            "wymagania": 0,
-            "trwalosc": 1,
-            "efekt": 10,
-            "can_use": true
-        }
-    ]
+    {
+        "id": 0,
+        "nazwa": "Mikstura Zdrowia",
+        "cena": 5,
+        "opis": "Przywraca 10 punktów zdrowia.",
+        "wymagania": 0,
+        "trwalosc": 1,
+        "efekt": 10,
+        "can_use": true,
+        "max_ilosc": 15,
+        "ilosc": 3
+    }
 ]
