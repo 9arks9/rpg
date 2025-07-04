@@ -1,0 +1,14 @@
+{
+  "skorzane_spodnie": {
+    "id": 30,
+    "nazwa": "Skórzane Spodnie",
+    "obrona": 2,
+    "cena": 12,
+    "opis": "Wygodne spodnie z grubej skóry.",
+    "trwalosc": 40,
+    "wymagania": 1,
+    "ubieralne": true,
+    "slot": "spodnie",
+    "szansa_na_drop": 0.7
+  }
+}

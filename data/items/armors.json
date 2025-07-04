@@ -1,3 +1,14 @@
 {
-  
+  "zbroja_skory": {
+    "id": 10,
+    "nazwa": "Skórzana Zbroja",
+    "obrona": 5,
+    "cena": 30,
+    "opis": "Lekka zbroja z utwardzanej skóry.",
+    "trwalosc": 80,
+    "wymagania": 1,
+    "ubieralne": true,
+    "slot": "zbroja",
+    "szansa_na_drop": 0.5
+  }
 }

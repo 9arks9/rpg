@@ -4,13 +4,39 @@
     "level": 1,
     "hp": 15,
     "atak": 2,
-    "loot": [0]
+    "loot": [0],
+    "szansa_na_loot": 0.5
   },
   "wilk": {
     "nazwa": "Wilk",
     "level": 5,
     "hp": 30,
     "atak": 5,
-    "loot": [1]
+    "loot": [1],
+    "szansa_na_loot": 0.5
+  },
+  "niedzwiedz": {
+    "nazwa": "Niedźwiedź",
+    "level": 10,
+    "hp": 50,
+    "atak": 10,
+    "loot": [2],
+    "szansa_na_loot": 0.3
+  },
+  "zabojczy_wilk": {
+    "nazwa": "Zabójczy Wilk",
+    "level": 15,
+    "hp": 80,
+    "atak": 15,
+    "loot": [3],
+    "szansa_na_loot": 0.3
+  },
+  "glodny_niedzwiedz": {
+    "nazwa": "Głodny Niedźwiedź",
+    "level": 20,
+    "hp": 120,
+    "atak": 20,
+    "loot": [4],
+    "szansa_na_loot": 0.3
   }
 }

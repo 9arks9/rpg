@@ -1,0 +1,14 @@
+{
+  "skorzane_naramienniki": {
+    "id": 50,
+    "nazwa": "Skórzane Naramienniki",
+    "obrona": 1,
+    "cena": 10,
+    "opis": "Naramienniki z grubej skóry.",
+    "trwalosc": 25,
+    "wymagania": 1,
+    "ubieralne": true,
+    "slot": "naramienniki",
+    "szansa_na_drop": 0.7
+  }
+}

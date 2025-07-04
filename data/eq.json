@@ -9,7 +9,7 @@
         "efekt": 10,
         "can_use": true,
         "max_ilosc": 15,
-        "ilosc": 15
+        "ilosc": 13
     },
     {
         "id": 1,
@@ -18,6 +18,17 @@
         "cena": 10,
         "opis": "Podstawowa broń, idealna dla początkujących.",
         "trwalosc": 100,
+        "wymagania": 1,
+        "ubieralne": true,
+        "szansa_na_drop": 0.7
+    },
+    {
+        "id": 1,
+        "nazwa": "Drewniany Miecz",
+        "atak": 5,
+        "cena": 10,
+        "opis": "Podstawowa broń, idealna dla początkujących.",
+        "trwalosc": 95,
         "wymagania": 1,
         "ubieralne": true
     }

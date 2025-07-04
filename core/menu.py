@@ -99,31 +99,19 @@ def inventory_menu(gracz):
     while True:
         clear_screen()
         print("\n=== EKWIPUNEK ===")
-        print("1. Sprawdź ekwipunek")
-        print("2. Sprawdź ekwipunek na sobie")
-        print("3. Załóż przedmiot")
-        print("4. Zdejmij przedmiot")
-        print("5. Użyj mikstury")
-        print("6. Powrót do gry")
+        print("Ekwipunek na sobie:")
+        pretty_print_ekwipunek(gracz.pokaz_ekwipunek_na_sobie(), tytul="Ekwipunek na sobie")
+        print("\nTwój ekwipunek:")
+        pretty_print_ekwipunek(gracz.pokaz_ekwipunek())
+        print("\n1. Załóż przedmiot")
+        print("2. Zdejmij przedmiot")
+        print("3. Użyj mikstury")
+        print("4. Powrót do gry")
+        print("5. Wyrzuć przedmiot z ekwipunku")
         print(f"\n{gracz.nazwa} [{int(gracz.hp)}/{int(gracz.max_hp)}]")
         print(f"Poziom [{gracz.level}]-[{gracz.xp}/{gracz.max_xp}]")
-        choice = input("Wybierz opcję (1-6): ")
+        choice = input("Wybierz opcję (1-5): ")
         if choice == "1":
-            pretty_print_ekwipunek(gracz.pokaz_ekwipunek())
-            wait_for_user()
-        elif choice == "2":
-            clear_screen()
-            print("\n=== EKWIPUNEK NA SOBIE ===")
-            pretty_print_ekwipunek(gracz.pokaz_ekwipunek_na_sobie(), tytul="Ekwipunek na sobie")
-            # Rozszerzone info o graczu z atrybutami i bonusami
-            atak_bonus = get_bonus_stats(gracz)
-            print(f"\n{gracz.nazwa} [{int(gracz.hp)}/{int(gracz.max_hp)}]")
-            print(f"Poziom [{gracz.level}]-[{gracz.xp}/{gracz.max_xp}]")
-            print(f"Atak: {gracz.atak} (+{atak_bonus}) = {gracz.atak + atak_bonus}")
-            print(f"Zdrowie: {gracz.zdrowie}")
-            print(f"Obrona: {gracz.obrona}")
-            wait_for_user()
-        elif choice == "3":
             try:
                 item_id = int(input("Podaj ID przedmiotu do założenia: "))
             except ValueError:
@@ -151,7 +139,7 @@ def inventory_menu(gracz):
             else:
                 print("Nie masz takiego przedmiotu w ekwipunku!")
                 wait_for_user()
-        elif choice == "4":
+        elif choice == "2":
             try:
                 item_id = int(input("Podaj ID przedmiotu do zdjęcia: "))
             except ValueError:
@@ -174,7 +162,7 @@ def inventory_menu(gracz):
             else:
                 print("Nie masz takiego przedmiotu na sobie!")
                 wait_for_user()
-        elif choice == "5":
+        elif choice == "3":
             try:
                 item_id = int(input("Podaj ID mikstury do użycia: "))
             except ValueError:
@@ -184,8 +172,24 @@ def inventory_menu(gracz):
             from potions import uzyj
             uzyj(gracz, item_id)
             wait_for_user()
-        elif choice == "6":
+        elif choice == "4":
             break
+        elif choice == "5":
+            try:
+                item_id = int(input("Podaj ID przedmiotu do wyrzucenia z ekwipunku: "))
+            except ValueError:
+                print("Nieprawidłowy ID!")
+                wait_for_user()
+                continue
+            for item in gracz.pokaz_ekwipunek():
+                if isinstance(item, dict) and item.get("id") == item_id:
+                    gracz.inventory.usun_z_ekwipunek(item)
+                    print(f"Wyrzucono przedmiot: {item.get('nazwa')}")
+                    wait_for_user()
+                    break
+            else:
+                print("Nie masz takiego przedmiotu w ekwipunku!")
+                wait_for_user()
         else:
             print("❌ Nieprawidłowy wybór.")
             wait_for_user()
@@ -213,6 +217,7 @@ def game_loop(gracz):
             pokaz_status()
             wait_for_user()
         elif choice == "2":
+            clear_screen()
             potwor = Przeciwnik.utworz("wilk")
             if potwor:
                 wynik, loot = walcz(gracz, potwor)

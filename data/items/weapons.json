@@ -7,7 +7,8 @@
     "opis": "Podstawowa broń, idealna dla początkujących.",
     "trwalosc": 100,
     "wymagania": 1,
-    "ubieralne": true
+    "ubieralne": true,
+    "szansa_na_drop": 0.7
   },
   "k_miecz": {
     "id": 2,
@@ -17,6 +18,7 @@
     "opis": "Solidna broń, lepsza niż drewniana.",
     "trwalosc": 100,
     "wymagania": 10,
-    "ubieralne": true
+    "ubieralne": true,
+    "szansa_na_drop": 0.3
   }
 }

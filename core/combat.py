@@ -3,6 +3,7 @@ from enemy import Przeciwnik
 import random
 import json
 import os
+import time
 
 def pretty_print_loot(loot):
     if not loot:
@@ -47,11 +48,13 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
             else:
                 print()
             print(f"❤️ {przeciwnik.nazwa} ma teraz {int(przeciwnik.hp)} HP")
+            time.sleep(1)
             if przeciwnik.hp <= 0:
                 print(f"\n✅ {gracz.nazwa} pokonał {przeciwnik.nazwa}!")
+                time.sleep(1)
                 xp = przeciwnik.level * 5
                 gracz.increase_xp(xp)
-                loot = losuj_loot(przeciwnik.loot)
+                loot = losuj_loot(przeciwnik.loot, przeciwnik)
                 gracz.dodaj_do_ekwipunek(loot)
                 pretty_print_loot(loot)
                 print("🎉 Gratulacje! Wygrałeś walkę.")
@@ -61,13 +64,30 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
             gracz.przyjmij_obrazenia(obrazenia_wroga)
             print(f"💥 {przeciwnik.nazwa} zadaje {obrazenia_wroga} obrażeń!")
             print(f"❤️ {gracz.nazwa} ma teraz {int(gracz.hp)} HP")
+            time.sleep(1)
+            # --- Zmniejsz trwałość przedmiotów na sobie ---
+            inv = gracz.inventory
+            zmienione = False
+            for item in inv.ekwipunek_na_sobie[:]:
+                if isinstance(item, dict) and "trwalosc" in item:
+                    item["trwalosc"] -= 1
+                    if item["trwalosc"] <= 0:
+                        print(f"❌ {item.get('nazwa', 'Przedmiot')} zużył się i został usunięty!")
+                        inv.ekwipunek_na_sobie.remove(item)
+                        zmienione = True
+            if zmienione:
+                inv.save_ekwipunek_na_sobie()
+            # ---
             if gracz.hp <= 0:
                 print(f"\n💀 {gracz.nazwa} został pokonany przez {przeciwnik.nazwa}...")
                 print("💀 Niestety, przegrałeś. Gra się kończy.")
+                time.sleep(1)
                 loot = []
                 wynik = "przegrana"
                 break
         # Po walce
+        inv = gracz.inventory
+        inv.save_ekwipunek_na_sobie()  # Zapisz stan ekwipunku na sobie po walce
         print("\nNaciśnij Enter, aby kontynuować, lub SPACJĘ, aby walczyć z kolejnym takim samym przeciwnikiem: ")
         if os.name == 'nt':
             import msvcrt
@@ -93,7 +113,7 @@ def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
             else:
                 continue
 
-def losuj_loot(loot_lista):
+def losuj_loot(loot_lista, przeciwnik=None):
     if not loot_lista:
         return []
     # Załaduj wszystkie pliki z itemkami
@@ -104,9 +124,19 @@ def losuj_loot(loot_lista):
                 items.update(json.load(f))
         except Exception:
             pass
-    # Zwróć przedmioty, których id są w loot_lista
+    # Szansa na drop czegokolwiek z potwora (domyślnie 1.0, można ustawiać w enemies.json)
+    szansa_na_loot = 1.0
+    if przeciwnik and hasattr(przeciwnik, 'szansa_na_loot'):
+        szansa_na_loot = getattr(przeciwnik, 'szansa_na_loot', 1.0)
+    elif isinstance(przeciwnik, dict):
+        szansa_na_loot = przeciwnik.get('szansa_na_loot', 1.0)
+    if random.random() > szansa_na_loot:
+        return []  # Brak lootu z potwora
     wynik = []
     for item in items.values():
         if item.get("id") in loot_lista:
-            wynik.append(item)
+            # Szansa na drop danego przedmiotu (domyślnie 1.0, można ustawiać w pliku itema)
+            szansa_na_drop = item.get("szansa_na_drop", 1.0)
+            if random.random() <= szansa_na_drop:
+                wynik.append(item)
     return wynik

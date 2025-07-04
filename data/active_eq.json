@@ -7,6 +7,8 @@
         "opis": "Podstawowa broń, idealna dla początkujących.",
         "trwalosc": 100,
         "wymagania": 1,
-        "ubieralne": true
+        "ubieralne": true,
+        "szansa_na_drop": 0.7,
+        "slot": "broń"
     }
 ]

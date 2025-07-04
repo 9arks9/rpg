@@ -1,0 +1,14 @@
+{
+  "skorzane_buty": {
+    "id": 40,
+    "nazwa": "Skórzane Buty",
+    "obrona": 1,
+    "cena": 8,
+    "opis": "Buty z grubej skóry, chroniące stopy.",
+    "trwalosc": 30,
+    "wymagania": 1,
+    "ubieralne": true,
+    "slot": "buty",
+    "szansa_na_drop": 0.8
+  }
+}

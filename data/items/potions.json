@@ -8,6 +8,7 @@
     "trwalosc": 1,
     "efekt": 10,
     "can_use": true,
-    "max_ilosc": 15
+    "max_ilosc": 15,
+    "szansa_na_drop": 0.8
   }
 }

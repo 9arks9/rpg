@@ -1,0 +1,14 @@
+{
+  "skorzany_helm": {
+    "id": 20,
+    "nazwa": "Skórzany Hełm",
+    "obrona": 2,
+    "cena": 15,
+    "opis": "Prosty hełm z utwardzanej skóry.",
+    "trwalosc": 50,
+    "wymagania": 1,
+    "ubieralne": true,
+    "slot": "helm",
+    "szansa_na_drop": 0.6
+  }
+}
