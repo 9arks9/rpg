@@ -23,7 +23,13 @@ class Inventory:
     def load_ekwipunek_na_sobie(self):
         if os.path.exists(self.active_eq_path):
             with open(self.active_eq_path, encoding="utf-8") as f:
-                self.ekwipunek_na_sobie = json.load(f)
+                data = json.load(f)
+                if isinstance(data, list):
+                    self.ekwipunek_na_sobie = data
+                else:
+                    self.ekwipunek_na_sobie = []
+        else:
+            self.ekwipunek_na_sobie = []
 
     def dodaj_do_ekwipunek(self, loot):
         if not isinstance(loot, list):

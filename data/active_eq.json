@@ -1,1 +1,12 @@
-{}
+[
+    {
+        "id": 1,
+        "nazwa": "Drewniany Miecz",
+        "atak": 5,
+        "cena": 10,
+        "opis": "Podstawowa broń, idealna dla początkujących.",
+        "trwalosc": 100,
+        "wymagania": 1,
+        "ubieralne": true
+    }
+]

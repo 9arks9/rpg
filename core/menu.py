@@ -213,7 +213,7 @@ def game_loop(gracz):
             pokaz_status()
             wait_for_user()
         elif choice == "2":
-            potwor = Przeciwnik.utworz("krolik")
+            potwor = Przeciwnik.utworz("wilk")
             if potwor:
                 wynik, loot = walcz(gracz, potwor)
                 if wynik == "wygrana":

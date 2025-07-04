@@ -10,5 +10,15 @@
         "can_use": true,
         "max_ilosc": 15,
         "ilosc": 15
+    },
+    {
+        "id": 1,
+        "nazwa": "Drewniany Miecz",
+        "atak": 5,
+        "cena": 10,
+        "opis": "Podstawowa broń, idealna dla początkujących.",
+        "trwalosc": 100,
+        "wymagania": 1,
+        "ubieralne": true
     }
 ]
