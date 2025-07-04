@@ -4,7 +4,7 @@ import os
 from inventory import Inventory
 
 class Gracz:
-    def __init__(self, nazwa="Gracz", max_hp=100, hp=100, level=1, xp=0, max_xp=100, atak=5, obrona=1):
+    def __init__(self, nazwa="Gracz", max_hp=100, hp=100, level=1, xp=0, max_xp=100, atak=5, obrona=1, monety=5):
         self.nazwa = nazwa
         self.max_hp = max_hp
         self.hp = hp
@@ -18,9 +18,10 @@ class Gracz:
         self.szansa_kryt = 0.2
         self.mnoznik_kryt = 1.5
         self.inventory = Inventory()
+        self.monety = monety  # ilość monet
 
     def __str__(self):
-        return f"\nStatus:\n{self.nazwa} [{int(self.hp)}/{int(self.max_hp)}]\nPoziom [{self.level}]-[{self.xp}/{self.max_xp}]\nAtrybuty:\n- {self.atak} atak\n- {self.zdrowie} zdrowie\n- {self.obrona} pancerz"
+        return f"\nStatus:\n{self.nazwa} [{int(self.hp)}/{int(self.max_hp)}]\nPoziom [{self.level}]-[{self.xp}/{self.max_xp}]\nMonety: {self.monety}\nAtrybuty:\n- {self.atak} atak\n- {self.zdrowie} zdrowie\n- {self.obrona} pancerz"
 
     def pokaz_nazwa(self):
         return self.nazwa
@@ -44,6 +45,8 @@ class Gracz:
         return self.zdrowie
     def pokaz_szansa_kryt(self):
         return self.szansa_kryt
+    def pokaz_monety(self):
+        return self.monety
 
     def dodaj_do_ekwipunek(self, loot):
         self.inventory.dodaj_do_ekwipunek(loot)
@@ -78,6 +81,8 @@ class Gracz:
         self.obrona = wartosc
     def ustaw_zdrowie(self, wartosc):
         self.zdrowie = wartosc
+    def ustaw_monety(self, wartosc):
+        self.monety = wartosc
 
     def decrease_hp(self, wartosc):
         return max(0, self.pokaz_hp() - wartosc)
@@ -91,6 +96,8 @@ class Gracz:
         self.punkty += 5
     def increase_zdrowie(self, wartosc):
         self.zdrowie += wartosc
+    def increase_monety(self, wartosc):
+        self.monety += wartosc
 
     def increase_level(self):
         self.level += 1
@@ -119,13 +126,18 @@ class Gracz:
             print("Pomyslnie dodano punkt w Obrona\n")
             self.increase_obrona(punktow)
             self.punkty -= punktow
+        elif atrybut == "kryt":
+            wartosc = 0.02  # +2% za punkt
+            self.szansa_kryt += wartosc * punktow
+            print(f"Pomyslnie dodano {punktow} punkt(ów) w Szansę na krytyka (+{wartosc*punktow*100:.0f}%)\n")
+            self.punkty -= punktow
 
     def ulepsz_atrybuty(self):
         print("Level up!")
         print("Ulepszanie atrybutow")
         print(f"Masz {self.punkty} punktow do rozdania")
         while self.punkty > 0:
-            atrybut = input("Wybierz atrybut do ulepszenia (hp/atk/obr): ").lower()
+            atrybut = input("Wybierz atrybut do ulepszenia (hp/atk/obr/kryt): ").lower()
             punktow = int(input("Ile punktow chcesz dodac? "))
             if punktow <= self.punkty:
                 self.dodaj_punkt(atrybut, punktow)
@@ -172,7 +184,8 @@ class Gracz:
             "punkty": self.punkty,
             "atak": self.atak,
             "obrona": self.obrona,
-            "zdrowie": self.zdrowie
+            "zdrowie": self.zdrowie,
+            "monety": self.monety
         }
 
     @classmethod
@@ -185,7 +198,8 @@ class Gracz:
             xp=data.get("xp", 0),
             max_xp=data.get("max_xp", 100),
             atak=data.get("atak", 1),
-            obrona=data.get("obrona", 1)
+            obrona=data.get("obrona", 1),
+            monety=data.get("monety", 0)
         )
         gracz.punkty = data.get("punkty", 0)
         gracz.zdrowie = data.get("zdrowie", 1)

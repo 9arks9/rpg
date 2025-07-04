@@ -183,7 +183,7 @@ def inventory_menu(gracz):
                 continue
             for item in gracz.pokaz_ekwipunek():
                 if isinstance(item, dict) and item.get("id") == item_id:
-                    gracz.inventory.usun_z_ekwipunek(item)
+                    gracz.inventory.usun_z_ekwipunku(item)
                     print(f"Wyrzucono przedmiot: {item.get('nazwa')}")
                     wait_for_user()
                     break

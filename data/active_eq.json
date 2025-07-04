@@ -5,7 +5,7 @@
         "atak": 5,
         "cena": 10,
         "opis": "Podstawowa broń, idealna dla początkujących.",
-        "trwalosc": 100,
+        "trwalosc": 99,
         "wymagania": 1,
         "ubieralne": true,
         "szansa_na_drop": 0.7,
