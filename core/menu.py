@@ -80,7 +80,21 @@ def pretty_print_ekwipunek(ekwipunek, tytul="Ekwipunek"):
             print(f"  Cena: {item['cena']}")
         print()
 
+def get_bonus_stats(gracz):
+    atak_bonus = 0
+    for item in gracz.pokaz_ekwipunek_na_sobie():
+        if isinstance(item, dict) and item.get("ubieralne") and item.get("wymagania", 0) <= gracz.level:
+            atak_bonus += item.get("atak", 0)
+    return atak_bonus
+
 def game_loop(gracz):
+    def pokaz_status():
+        atak_bonus = get_bonus_stats(gracz)
+        print(gracz)
+        if atak_bonus:
+            print(f"[Bonus] Atak z ekwipunku na sobie: +{atak_bonus}")
+            print(f"[SUMA] Atak całkowity: {gracz.atak + atak_bonus}")
+
     while True:
         print("\n=== MENU GRY ===")
         print("1. Pokaż status")
@@ -88,12 +102,15 @@ def game_loop(gracz):
         print("3. Zapisz grę")
         print("4. Sprawdź ekwipunek")
         print("5. Sprawdź ekwipunek na sobie")
-        print("6. Wyjście do menu głównego")
+        print("6. Załóż przedmiot")
+        print("7. Zdejmij przedmiot")
+        print("8. Użyj mikstury")
+        print("9. Wyjście do menu głównego")
 
-        choice = input("Wybierz opcję (1-6): ")
+        choice = input("Wybierz opcję (1-9): ")
 
         if choice == "1":
-            print(gracz)
+            pokaz_status()
         elif choice == "2":
             potwor = Przeciwnik.utworz("krolik")
             if potwor:
@@ -110,6 +127,55 @@ def game_loop(gracz):
         elif choice == "5":
             pretty_print_ekwipunek(gracz.pokaz_ekwipunek_na_sobie(), tytul="Ekwipunek na sobie")
         elif choice == "6":
+            # Załóż przedmiot
+            try:
+                item_id = int(input("Podaj ID przedmiotu do założenia: "))
+            except ValueError:
+                print("Nieprawidłowy ID!")
+                continue
+            # Szukaj w ekwipunku, sprawdź wymagania i ubieralne
+            for item in gracz.pokaz_ekwipunek():
+                if isinstance(item, dict) and item.get("id") == item_id:
+                    if not item.get("ubieralne"):
+                        print("Tego przedmiotu nie można założyć!")
+                        break
+                    if item.get("wymagania", 0) > gracz.level:
+                        print("Za niski poziom na ten przedmiot!")
+                        break
+                    if item.get("atak", 0) > 0:
+                        from weapons import zaloz
+                        zaloz(gracz, item_id)
+                        break
+                    else:
+                        from armors import zaloz
+                        zaloz(gracz, item_id)
+                        break
+            else:
+                print("Nie masz takiego przedmiotu w ekwipunku!")
+        elif choice == "7":
+            # Zdejmij przedmiot
+            try:
+                item_id = int(input("Podaj ID przedmiotu do zdjęcia: "))
+            except ValueError:
+                print("Nieprawidłowy ID!")
+                continue
+            for item in gracz.pokaz_ekwipunek_na_sobie():
+                if isinstance(item, dict) and item.get("id") == item_id:
+                    gracz.zdejmij_ekwipunek(item)
+                    print(f"Zdjęto przedmiot: {item.get('nazwa')}")
+                    break
+            else:
+                print("Nie masz takiego przedmiotu na sobie!")
+        elif choice == "8":
+            # Użyj mikstury
+            try:
+                item_id = int(input("Podaj ID mikstury do użycia: "))
+            except ValueError:
+                print("Nieprawidłowy ID!")
+                continue
+            from potions import uzyj
+            uzyj(gracz, item_id)
+        elif choice == "9":
             print("🔙 Powrót do menu głównego.")
             break
         else:

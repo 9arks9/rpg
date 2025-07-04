@@ -6,7 +6,8 @@
     "cena": 10,
     "opis": "Podstawowa broń, idealna dla początkujących.",
     "trwalosc": 100,
-    "wymagania": 1
+    "wymagania": 1,
+    "ubieralne": true
   },
   "k_miecz": {
     "id": 2,
@@ -15,6 +16,7 @@
     "cena": 20,
     "opis": "Solidna broń, lepsza niż drewniana.",
     "trwalosc": 100,
-    "wymagania": 10
+    "wymagania": 10,
+    "ubieralne": true
   }
 }
