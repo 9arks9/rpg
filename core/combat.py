@@ -2,6 +2,7 @@ from player import Gracz
 from enemy import Przeciwnik
 import random
 import json
+import os
 
 def pretty_print_loot(loot):
     if not loot:
@@ -22,41 +23,75 @@ def pretty_print_loot(loot):
             print(f"  Cena: {item['cena']}")
         print()
 
+def wait_for_user():
+    input("\nNaciśnij Enter, aby kontynuować...")
+
 def walcz(gracz: Gracz, przeciwnik: Przeciwnik):
-    print(f"\n⚔️ Walka: {gracz.nazwa} vs {przeciwnik.nazwa}")
-    print(f"{gracz.nazwa} HP: {int(gracz.hp)} | {przeciwnik.nazwa} HP: {int(przeciwnik.hp)}")
-
-    while gracz.hp > 0 and przeciwnik.hp > 0:
-        input("\n👉 Naciśnij Enter, aby zaatakować...")
-
-        # Gracz atakuje
-        obrazenia, czy_kryt = gracz.zadaj_obrazenia_z_krytem()
-        przeciwnik.hp = max(0, przeciwnik.hp - obrazenia)
-        print(f"🗡️ {gracz.nazwa} zadaje {obrazenia} obrażeń!", end=" ")
-        if czy_kryt:
-            print("💥 CIOS KRYTYCZNY!")
+    import copy
+    import sys
+    clear_screen = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+    max_hp_enemy = getattr(przeciwnik, 'max_hp', None)
+    if max_hp_enemy is None:
+        max_hp_enemy = int(getattr(przeciwnik, 'hp', 0))
+    while True:
+        print(f"\n=== WALKA ===")
+        print(f"{gracz.nazwa} [{int(gracz.hp)}/{int(gracz.max_hp)}]  VS  {przeciwnik.nazwa} [{int(przeciwnik.hp)}/{max_hp_enemy}]")
+        print("----------------------------------------")
+        while gracz.hp > 0 and przeciwnik.hp > 0:
+            input("\n👉 Naciśnij Enter, aby zaatakować...")
+            obrazenia, czy_kryt = gracz.zadaj_obrazenia_z_krytem()
+            przeciwnik.hp = max(0, przeciwnik.hp - obrazenia)
+            print(f"🗡️ {gracz.nazwa} zadaje {obrazenia} obrażeń!", end=" ")
+            if czy_kryt:
+                print("💥 CIOS KRYTYCZNY!")
+            else:
+                print()
+            print(f"❤️ {przeciwnik.nazwa} ma teraz {int(przeciwnik.hp)} HP")
+            if przeciwnik.hp <= 0:
+                print(f"\n✅ {gracz.nazwa} pokonał {przeciwnik.nazwa}!")
+                xp = przeciwnik.level * 5
+                gracz.increase_xp(xp)
+                loot = losuj_loot(przeciwnik.loot)
+                gracz.dodaj_do_ekwipunek(loot)
+                pretty_print_loot(loot)
+                print("🎉 Gratulacje! Wygrałeś walkę.")
+                wynik = "wygrana"
+                break
+            obrazenia_wroga = przeciwnik.zadaj_obrazenia()
+            gracz.przyjmij_obrazenia(obrazenia_wroga)
+            print(f"💥 {przeciwnik.nazwa} zadaje {obrazenia_wroga} obrażeń!")
+            print(f"❤️ {gracz.nazwa} ma teraz {int(gracz.hp)} HP")
+            if gracz.hp <= 0:
+                print(f"\n💀 {gracz.nazwa} został pokonany przez {przeciwnik.nazwa}...")
+                print("💀 Niestety, przegrałeś. Gra się kończy.")
+                loot = []
+                wynik = "przegrana"
+                break
+        # Po walce
+        print("\nNaciśnij Enter, aby kontynuować, lub SPACJĘ, aby walczyć z kolejnym takim samym przeciwnikiem: ")
+        if os.name == 'nt':
+            import msvcrt
+            key = msvcrt.getch()
+            if key in (b'\r', b'\n'):
+                return wynik, loot
+            elif key == b' ':
+                nowy_przeciwnik = copy.deepcopy(przeciwnik)
+                nowy_przeciwnik.hp = max_hp_enemy
+                przeciwnik = nowy_przeciwnik
+                continue
+            else:
+                continue
         else:
-            print()
-        print(f"❤️ {przeciwnik.nazwa} ma teraz {int(przeciwnik.hp)} HP")
-
-        if przeciwnik.hp <= 0:
-            print(f"\n✅ {gracz.nazwa} pokonał {przeciwnik.nazwa}!")
-            xp = przeciwnik.level * 5
-            gracz.increase_xp(xp)
-            loot = losuj_loot(przeciwnik.loot)
-            gracz.dodaj_do_ekwipunek(loot)
-            pretty_print_loot(loot)
-            return "wygrana", loot
-
-        # Przeciwnik kontratakuje
-        obrazenia_wroga = przeciwnik.zadaj_obrazenia()
-        gracz.przyjmij_obrazenia(obrazenia_wroga)
-        print(f"💥 {przeciwnik.nazwa} zadaje {obrazenia_wroga} obrażeń!")
-        print(f"❤️ {gracz.nazwa} ma teraz {int(gracz.hp)} HP")
-
-        if gracz.hp <= 0:
-            print(f"\n💀 {gracz.nazwa} został pokonany przez {przeciwnik.nazwa}...")
-            return "przegrana", []
+            key = input()
+            if key == '':
+                return wynik, loot
+            elif key == ' ':
+                nowy_przeciwnik = copy.deepcopy(przeciwnik)
+                nowy_przeciwnik.hp = max_hp_enemy
+                przeciwnik = nowy_przeciwnik
+                continue
+            else:
+                continue
 
 def losuj_loot(loot_lista):
     if not loot_lista:

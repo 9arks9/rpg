@@ -1,12 +1,12 @@
 {
     "nazwa": "Alex",
     "max_hp": 110,
-    "hp": 110.0,
-    "level": 2,
-    "xp": 115,
-    "max_xp": 150.0,
+    "hp": 110,
+    "level": 3,
+    "xp": 0.0,
+    "max_xp": 225.0,
     "punkty": 0,
-    "atak": 11,
+    "atak": 21,
     "obrona": 1,
     "zdrowie": 3
 }
